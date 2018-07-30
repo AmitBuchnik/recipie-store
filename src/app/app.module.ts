@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/header.component';
@@ -10,6 +11,7 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { RecipeListComponent } from './recipes/recipe-list.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail.component';
 import { RecipeItemComponent } from './recipes/recipe-item.component';
+import { routes } from './routes';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { RecipeItemComponent } from './recipes/recipe-item.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
