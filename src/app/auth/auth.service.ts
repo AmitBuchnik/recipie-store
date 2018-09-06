@@ -23,7 +23,7 @@ export class AuthService {
         firebase.auth().currentUser.getIdToken()
           .then((token: string) => {
             this.token = token;
-            this.router.navigate(['/']);
+            this.router.navigate(['/recipes']);
           });
       })
       .catch(error => console.log(error));
