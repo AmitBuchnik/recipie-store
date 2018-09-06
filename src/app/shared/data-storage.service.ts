@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+// import { Headers, Response } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
@@ -12,35 +13,41 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class DataStorageService {
-  constructor(private http: Http,
+  constructor(private httpClient: HttpClient,
     private recipeService: RecipeService,
     private authService: AuthService) {
   }
 
-  storeRecipes(): Observable<Response> {
+  storeRecipes(): Observable<Recipe[]> {
     const token = this.authService.getToken();
 
-    const headers = new Headers({
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.put('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,
+    return this.httpClient.put<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,
       this.recipeService.getRecipes(), { headers: headers });
   }
 
   getRecipes() {
     const token = this.authService.getToken();
 
-    const headers = new Headers({
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
-    this.http.get('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,
-      { headers: headers })
-      .pipe(map((response: Response) => {
-        const recipes: Recipe[] = response.json();
+    // With HttpClient the body of the response is extracted by default (as json)
+    this.httpClient.get<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token
+      // ,
+      // {
+      //   headers: headers,
+      //   observe: 'body',
+      //   responseType: 'json'
+      // }
+    )
+      .pipe(map((recipes) => {
         for (const recipe of recipes) {
           if (!recipe['ingredients']) {
-            recipe['ingredients'] = [];  
+            recipe['ingredients'] = [];
           }
         }
         return recipes;
@@ -48,5 +55,15 @@ export class DataStorageService {
       .subscribe((recipes: Recipe[]) => {
         this.recipeService.setRecipes(recipes);
       });
+
+    // this.httpClient.get('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,
+    //   {
+    //     observe: 'response', // 'body'
+    //     responseType: 'text' // 'json'. 'blob', 'array'
+    //   })
+    //   .pipe(map((response) => {
+    //     console.log(response);
+    //     return [];
+    //   }));
   }
 }
