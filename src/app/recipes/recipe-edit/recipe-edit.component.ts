@@ -14,6 +14,7 @@ export class RecipeEditComponent implements OnInit {
   id: number;
   editMode = false;
   recipeForm: FormGroup;
+  asFormArray(val): FormArray { return val; }
 
   constructor(private route: ActivatedRoute,
     private router: Router,
