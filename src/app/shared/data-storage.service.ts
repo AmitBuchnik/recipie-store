@@ -1,6 +1,13 @@
-import { Injectable } from '@angular/core';
+ import { Injectable } from '@angular/core';
 // import { Headers, Response } from '@angular/http';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpResponse,
+  HttpEvent,
+  HttpParams,
+  HttpRequest
+} from '@angular/common/http';
 
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
@@ -18,14 +25,45 @@ export class DataStorageService {
     private authService: AuthService) {
   }
 
-  storeRecipes(): Observable<Recipe[]> {
-    const token = this.authService.getToken();
+  // storeRecipes(): Observable<HttpEvent<Recipe[]>> {
+  //   const token = this.authService.getToken();
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    return this.httpClient.put<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,
-      this.recipeService.getRecipes(), { headers: headers });
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json'
+  //   });
+  //   return this.httpClient.put<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,
+  //     this.recipeService.getRecipes(),
+  //     {
+  //       headers: headers,
+  //       observe: 'events' // request and response events
+  //     });
+  // }
+
+  storeRecipes(): Observable<HttpEvent<Recipe[]>> {
+    // const token = this.authService.getToken();
+
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json'
+    // });
+    
+    // headers.set('Content-Type', 'application/json');
+    // headers.append('Content-Type', 'application/json');
+
+    // return this.httpClient.put<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
+    //   this.recipeService.getRecipes(),
+    //   {
+    //     // headers: headers,
+    //     params: new HttpParams().set('auth', token)
+    //   });
+
+
+    // Useful for uploading and downloading files (progressbar)
+    const request = new HttpRequest('PUT', 'https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
+      this.recipeService.getRecipes(), {
+        // params: new HttpParams().set('auth', token),
+        reportProgress: true
+      });
+    return this.httpClient.request(request);
   }
 
   getRecipes() {
@@ -36,13 +74,13 @@ export class DataStorageService {
     });
 
     // With HttpClient the body of the response is extracted by default (as json)
-    this.httpClient.get<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token
-      // ,
-      // {
-      //   headers: headers,
-      //   observe: 'body',
-      //   responseType: 'json'
-      // }
+    this.httpClient.get<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
+      {
+        // headers: headers,
+        // observe: 'body',
+        // responseType: 'json',
+        // params: new HttpParams().set('auth', token)
+      }
     )
       .pipe(map((recipes) => {
         for (const recipe of recipes) {
@@ -58,7 +96,8 @@ export class DataStorageService {
 
     // this.httpClient.get('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,
     //   {
-    //     observe: 'response', // 'body'
+    //     headers: headers,
+    //     observe: 'response', // 'body', 'events'
     //     responseType: 'text' // 'json'. 'blob', 'array'
     //   })
     //   .pipe(map((response) => {

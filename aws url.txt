@@ -1,0 +1,2 @@
+aws server - http://ng-recipe-book-deployment-amit-buchnik.s3-website.us-east-2.amazonaws.com 
+Angular 6 HttpClient - https://angular.io/guide/http

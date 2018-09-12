@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+// import { HttpResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 
 import { DataStorageService } from '../../shared/data-storage.service';
 import { AuthService } from '../../auth/auth.service';
@@ -18,10 +18,24 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  // onSaveData() {
+  //   this.dataStorageService.storeRecipes()
+  //     .subscribe((response: HttpEvent<Recipe[]>) => {
+  //       console.log(response.type === HttpEventType.Sent);
+  //     });
+  // }
+
+  // onSaveData() {
+  //   this.dataStorageService.storeRecipes()
+  //     .subscribe((recipes: Recipe[]) => {
+  //       console.log(recipes);
+  //     });
+  // }
+
   onSaveData() {
     this.dataStorageService.storeRecipes()
-      .subscribe((recipes: Recipe[]) => {
-        console.log(recipes);
+      .subscribe(Response => {
+        console.log(Response);
       });
   }
 
