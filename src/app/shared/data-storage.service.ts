@@ -10,7 +10,7 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { map } from 'rxjs/operators/map';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';

@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/internal/Observable';
 // import { HttpResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 
 import { DataStorageService } from '../../shared/data-storage.service';
 import { AuthService } from '../../auth/auth.service';
 import { Recipe } from '../../recipes/recipe.model';
+import * as fromApp from '../../ngrx-store/app.reducers';
+import * as fromAuth from '../../auth/ngrx-store/auth.reducers';
+import * as AuthActions from '../../auth/ngrx-store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -11,11 +16,15 @@ import { Recipe } from '../../recipes/recipe.model';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  authState: Observable<fromApp.IAppState>;
+
   constructor(private dataStorageService: DataStorageService,
-    public authService: AuthService) {
+    public authService: AuthService,
+    private store: Store<fromAuth.IState>) {
   }
 
   ngOnInit() {
+    this.authState = this.store.select('auth');    
   }
 
   // onSaveData() {

@@ -1,21 +1,27 @@
-// import { Action } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
+export const SIGNUP = 'SIGNUP';
+export const SIGNIN = 'SIGNIN';
+export const LOGOUT = 'LOGOUT';
+export const SET_TOKEN = 'SET_TOKEN';
 
-// export const ADD_INGREDIENTS = 'ADD_INGREDIENTS';
-// export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export class Signup implements Action {
+    readonly type = SIGNUP;
+}
 
-// export class AddIngredient implements Action {
-//     readonly type = ADD_INGREDIENT;
+export class Signin implements Action {
+    readonly type = SIGNIN;
+}
 
-//     constructor(public payload: Ingredient) {
-//     }
-// }
+export class Logout implements Action {
+    readonly type = LOGOUT;
+}
 
-// export class AddIngredients implements Action {
-//     readonly type = ADD_INGREDIENTS;
+export class SetToken implements Action {
+    readonly type = SET_TOKEN;
 
-//     constructor(public payload: Ingredient[]) {
-//     }
-// }
+    constructor(public payload: string) {
+    }
+}
 
-// export type AuthActions = AddIngredient | AddIngredients;
+export type AuthActions = Signup | Signin | Logout | SetToken;

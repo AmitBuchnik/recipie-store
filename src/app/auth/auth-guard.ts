@@ -7,34 +7,43 @@ import {
   CanLoad,
   Route
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators/map';
+import { take } from 'rxjs/operators/take';
 
-import { AuthService } from './auth.service';
+import * as fromApp from '../ngrx-store/app.reducers';
+import * as fromAuth from './ngrx-store/auth.reducers';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanLoad { 
-  constructor(private authService: AuthService,
-    private router: Router) {
+export class AuthGuard implements CanActivate, CanLoad {
+  constructor(private router: Router,
+    private store: Store<fromApp.IAppState>) {
   }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const authenticated = this.authService.isAuthenticated();
-    if (authenticated) {
-      return true;
-    }
-    this.router.navigate(['/recipes']);
-    return false;
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
+    : Observable<boolean> | Promise<boolean> | boolean {
+    return this.store.select('auth')
+      .pipe(map((authState: fromAuth.IState) => {
+        if (authState.authenticated) {
+          return true;
+        }
+        this.router.navigate(['/recipes']);
+        return false;
+      }))
+      .pipe(take(1));
   }
 
   canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
-    const authenticated = this.authService.isAuthenticated();
-    if (authenticated) {
-      return true;
-    }
-    return false;
+    return this.store.select('auth')
+      .pipe(map((authState: fromAuth.IState) => {
+        if (authState.authenticated) {
+          return true;
+        }
+        return false;
+      }))
+      .pipe(take(1));
   }
 }
