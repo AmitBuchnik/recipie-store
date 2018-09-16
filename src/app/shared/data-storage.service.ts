@@ -67,7 +67,7 @@ export class DataStorageService {
   }
 
   getRecipes() {
-    const token = this.authService.getToken();
+    // const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

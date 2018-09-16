@@ -9,7 +9,6 @@ export class AuthResponseInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        // printing the intercepted response
         return next.handle(req).pipe(tap(event => {
             console.log('Response Intercepted', event);
         }));

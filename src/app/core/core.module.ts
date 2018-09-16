@@ -17,7 +17,6 @@ import { AuthResponseInterceptor } from '../shared/auth.response.interceptor';
   ],
   exports: [
     AppRoutingModule,
-    SharedModule,
     HeaderComponent
   ],
   declarations: [
