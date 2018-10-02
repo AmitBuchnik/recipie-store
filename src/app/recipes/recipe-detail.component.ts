@@ -1,11 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs/internal/Subscription';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/internal/Observable';
-import { take } from 'rxjs/operators/take';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
-import { RecipeService } from './recipe.service';
 import * as ShoppingListActions from '../shopping/ngrx-store/shopping-list.actions';
 import * as fromRecipe from './ngrx-store/recipe.reducers';
 import * as RecipeActions from './ngrx-store/recipe.actions';
@@ -29,7 +27,9 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.route.data.subscribe((data) => {
-    //   this.recipe = data['recipe'];
+    //   // this.recipe = data['recipe'];
+    //   data['recipe']
+    //     .subscribe(recipe => this.recipe = recipe);
     // });
 
     this.route.params

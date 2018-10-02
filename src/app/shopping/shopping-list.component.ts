@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
+import {  Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromShoppingList from '../shopping/ngrx-store/shopping-list.reducers';

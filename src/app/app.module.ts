@@ -21,7 +21,10 @@ import { AuthEffects } from './auth/ngrx-store/auth.effects';
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    // Add .withServerTransition() to support Universal rendering.
+    // The application ID can be any identifier which is unique on
+    // the page.
+    BrowserModule.withServerTransition({ appId: 'my-app' }),
     HttpClientModule,
     CoreModule,
     SharedModule,
