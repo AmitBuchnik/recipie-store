@@ -1,5 +1,6 @@
- import { Injectable } from '@angular/core';
-// import { Headers, Response } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import {
   HttpClient,
   HttpHeaders,
@@ -11,16 +12,21 @@ import {
 
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators/map';
+import { switchMap } from 'rxjs/operators/switchMap';
+import { take } from 'rxjs/operators/take';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
+import * as fromRecipe from '../recipes/ngrx-store/recipe.reducers';
+import * as RecipeActions from '../recipes/ngrx-store/recipe.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataStorageService {
   constructor(private httpClient: HttpClient,
-    private recipeService: RecipeService) {
+    private recipeService: RecipeService,
+    private store: Store<fromRecipe.IFeatureState>) {
   }
 
   // storeRecipes(): Observable<HttpEvent<Recipe[]>> {
@@ -55,13 +61,23 @@ export class DataStorageService {
     //   });
 
 
-    // Useful for uploading and downloading files (progressbar)
-    const request = new HttpRequest('PUT', 'https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
-      this.recipeService.getRecipes(), {
-        // params: new HttpParams().set('auth', token),
-        reportProgress: true
-      });
-    return this.httpClient.request(request);
+    // // Useful for uploading and downloading files (progressbar)
+    // const request = new HttpRequest('PUT', 'https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
+    //   this.recipeService.getRecipes(), {
+    //     // params: new HttpParams().set('auth', token),
+    //     reportProgress: true
+    //   });
+    // return this.httpClient.request(request);
+
+    return this.store.select('recipes')
+      .pipe(take(1))
+      .pipe(switchMap((recipeState: fromRecipe.IState) => {
+        const request = new HttpRequest('PUT', 'https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
+          recipeState.recipes, {
+            reportProgress: true
+          });
+        return this.httpClient.request(request);
+      }));
   }
 
   getRecipes() {
@@ -89,7 +105,8 @@ export class DataStorageService {
         return recipes;
       }))
       .subscribe((recipes: Recipe[]) => {
-        this.recipeService.setRecipes(recipes);
+        this.store.dispatch(new RecipeActions.SetRecipes(recipes));
+        // this.recipeService.setRecipes(recipes);
       });
 
     // this.httpClient.get('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,

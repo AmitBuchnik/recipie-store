@@ -2,11 +2,13 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/internal/Observable';
+import { take } from 'rxjs/operators/take';
 
-import { Recipe } from './recipe.model';
 import { RecipeService } from './recipe.service';
 import * as ShoppingListActions from '../shopping/ngrx-store/shopping-list.actions';
-import * as fromApp from '../ngrx-store/app.reducers';
+import * as fromRecipe from './ngrx-store/recipe.reducers';
+import * as RecipeActions from './ngrx-store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -14,15 +16,15 @@ import * as fromApp from '../ngrx-store/app.reducers';
   styleUrls: ['./recipe-detail.component.css']
 })
 export class RecipeDetailComponent implements OnInit, OnDestroy {
-  @Input() recipe: Recipe;
-  subscription: Subscription;
+  // @Input() recipe: Recipe;
+  recipeState: Observable<fromRecipe.IState>;
+  // subscription: Subscription;
   id: number;
 
   // constructor(private route: ActivatedRoute) { }
-  constructor(private recipeService: RecipeService,
-    private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromApp.IAppState>) {
+    private store: Store<fromRecipe.IFeatureState>) {
   }
 
   ngOnInit() {
@@ -33,21 +35,26 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.route.params
       .subscribe((params: Params) => {
         this.id = +params['id'];
-        this.recipe = this.recipeService.getRecipe(this.id);
+        this.recipeState = this.store.select('recipes');
+        // this.recipe = this.recipeService.getRecipe(this.id);
       });
     
-    this.subscription = this.recipeService.recipesChanged
-      .subscribe((recipes: Recipe[]) => {
-        this.recipe = recipes[this.id];
-    });
+    // this.subscription = this.recipeService.recipesChanged
+    //   .subscribe((recipes: Recipe[]) => {
+    //     this.recipe = recipes[this.id];
+    // });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
   onAddToShoppingList(): void {
-    this.store.dispatch(new ShoppingListActions.AddIngredients(this.recipe.ingredients));
+    this.store.select('recipes')
+      .pipe(take(1))
+      .subscribe((recipeState: fromRecipe.IState) => {
+        this.store.dispatch(new ShoppingListActions.AddIngredients(recipeState.recipes[this.id].ingredients));
+      });
   }
 
   onEditRecipe() {
@@ -55,8 +62,9 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     // this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
   }
 
-  onDeleteRecipe() {
-    this.recipeService.deleteRecipe(this.id);
+  onDeleteRecipe() {    
+    // this.recipeService.deleteRecipe(this.id);
+    this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
     this.router.navigate(['/recipes']);
   }
 }
