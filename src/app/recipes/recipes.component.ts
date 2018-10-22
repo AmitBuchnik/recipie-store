@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {trigger, style, transition, animate, state, query, group} from '@angular/animations';
 
 @Component({
   selector: 'app-recipes',

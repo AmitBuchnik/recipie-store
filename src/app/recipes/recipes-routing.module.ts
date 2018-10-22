@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 
-import { RecipesComponent } from './recipes.component';
-import { RecipeDetailComponent } from './recipe-detail.component';
-import { RecipeResolver } from './recipe-resolver.service';
-import { RecipeRouteActivatorGuard } from './recipe-route-activator.guard';
-import { RecipeStartComponent } from './recipe-start/recipe-start.component';
-import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
-import { AuthGuard } from '../auth/auth-guard';
+import {RecipesComponent} from './recipes.component';
+import {RecipeDetailComponent} from './recipe-detail.component';
+import {RecipeResolver} from './recipe-resolver.service';
+import {RecipeRouteActivatorGuard} from './recipe-route-activator.guard';
+import {RecipeStartComponent} from './recipe-start/recipe-start.component';
+import {RecipeEditComponent} from './recipe-edit/recipe-edit.component';
+import {AuthGuard} from '../auth/auth-guard';
 
 const routes: Routes = [
     {
@@ -26,7 +26,7 @@ const routes: Routes = [
             },
             {
                 path: ':id',
-                component: RecipeDetailComponent,
+                component: RecipeDetailComponent
                 // canActivate: [RecipeRouteActivatorGuard],
                 // resolve: { recipe: RecipeResolver }
             },

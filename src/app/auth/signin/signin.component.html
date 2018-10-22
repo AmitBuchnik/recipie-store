@@ -39,6 +39,7 @@
       </div>
       <button class="btn btn-primary"
         type="submit"
+        (keyup.enter)="onSignin(form)"
         [disabled]="form.invalid">
         Sign In
       </button>
