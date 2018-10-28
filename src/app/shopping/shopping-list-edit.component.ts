@@ -12,7 +12,7 @@ import * as fromApp from '../ngrx-store/app.reducers';
   templateUrl: './shopping-list-edit.component.html',
   styleUrls: ['./shopping-list-edit.component.css']
 })
-export class ShoppingListEditComponent implements OnInit, OnDestroy {  
+export class ShoppingListEditComponent implements OnInit, OnDestroy {
   // @ViewChild('nameInput') nameInputRef: ElementRef;
   // @ViewChild('amountInput') amountInputRef: ElementRef;
   @ViewChild('form') shoppingListForm: NgForm;
@@ -62,11 +62,11 @@ export class ShoppingListEditComponent implements OnInit, OnDestroy {
 
     this.editMode = false;
     form.reset();
-  }  
+  }
 
   onDelete() {
     this.store.dispatch(new ShoppingListActions.DeleteIngredient());
-      this.onClear();
+    this.onClear();
   }
 
   onClear() {
