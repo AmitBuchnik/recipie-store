@@ -13,10 +13,10 @@ import * as fromApp from '../ngrx-store/app.reducers';
   styleUrls: ['./shopping-list-edit.component.css']
 })
 export class ShoppingListEditComponent implements OnInit, OnDestroy {
-  // @ViewChild('nameInput') nameInputRef: ElementRef;
-  // @ViewChild('amountInput') amountInputRef: ElementRef;
+  // @ViewChild('nameInput') nameInputRef: ElementRef<HTMLInputElement>;
+  // @ViewChild('amountInput') amountInputRef: ElementRef<HTMLInputElement>;
   @ViewChild('form') shoppingListForm: NgForm;
-    
+
   editingSubscription: Subscription;
   editMode = false;
   editedItem: Ingredient;
