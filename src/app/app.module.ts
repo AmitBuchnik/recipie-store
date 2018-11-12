@@ -11,7 +11,6 @@ import { environment } from '../environments/environment';
 import { ShoppingListModule } from './shopping/shopping-list.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 import { reducers } from './ngrx-store/app.reducers';
@@ -36,7 +35,6 @@ import { AuthEffects } from './auth/ngrx-store/auth.effects';
     AuthModule,
     ShoppingListModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

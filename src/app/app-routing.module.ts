@@ -5,12 +5,12 @@ import { ShoppingListComponent } from "./shopping/shopping-list.component";
 import { HomeComponent } from './core/home/home.component';
 import { AuthGuard } from './auth/auth-guard';
 
-const routes: Routes = [    
+const routes: Routes = [
     // { path: '', redirectTo: 'recipes', pathMatch: 'full' },
     { path: '', component: HomeComponent },
     {
         path: 'recipes',
-        loadChildren: './recipes/recipes.module#RecipesModule',
+        loadChildren: './recipes/recipes.module#RecipesModule', // Lazy loading
         canLoad: [AuthGuard]
     },
     { path: 'shopping-list', component: ShoppingListComponent }
@@ -24,5 +24,5 @@ const routes: Routes = [
         RouterModule
     ]
 })
-export class AppRoutingModule {    
+export class AppRoutingModule {
 }
