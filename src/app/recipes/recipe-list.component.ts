@@ -5,13 +5,14 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromRecipe from './ngrx-store/recipe.reducers';
+import * as RecipeActions from './ngrx-store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css']
 })
-export class RecipeListComponent implements OnInit, OnDestroy {  
+export class RecipeListComponent implements OnInit, OnDestroy {
   recipeListState: Observable<fromRecipe.IState>;
   // subscription: Subscription;
 
@@ -21,9 +22,10 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // this.store.dispatch(new RecipeActions.FetchRecipes());
     this.recipeListState = this.store.select('recipes');
-    
-    // this.recipes = this.recipeS  ervice.getRecipes();
+
+    // this.recipes = this.recipeService.getRecipes();
 
     // this.subscription = this.recipeService.recipesChanged.subscribe((recipes: Recipe[]) => {
     //   this.recipes = recipes;

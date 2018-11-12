@@ -47,7 +47,7 @@ export class DataStorageService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    
+
     // headers.set('Content-Type', 'application/json');
     // headers.append('Content-Type', 'application/json');
 
@@ -105,7 +105,7 @@ export class DataStorageService {
         // params: new HttpParams().set('auth', token)
       }
     )
-      .pipe(map((recipes) => {
+      .pipe(map((recipes: Recipe[]) => {
         for (const recipe of recipes) {
           if (!recipe['ingredients']) {
             recipe['ingredients'] = [];

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
@@ -11,7 +10,6 @@ import { AuthResponseInterceptor } from '../shared/auth.response.interceptor';
 
 @NgModule({
   imports: [
-    CommonModule,
     AppRoutingModule,
     SharedModule
   ],
