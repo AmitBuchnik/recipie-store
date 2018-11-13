@@ -18,6 +18,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
+        // Preloads all lazy loaded modules after the app has been run
         RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
     ],
     exports: [
