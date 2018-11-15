@@ -26,7 +26,7 @@ import { AuthResponseInterceptor } from '../shared/auth.response.interceptor';
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS,        // the order of interceptors is important
       useClass: AuthRequestInterceptor,
       multi: true
     },

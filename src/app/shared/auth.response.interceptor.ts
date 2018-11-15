@@ -9,9 +9,10 @@ export class AuthResponseInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(req).pipe(tap(event => {
-            console.log('Response Intercepted', event);
-        }));
+        return next.handle(req)
+            .pipe(tap(event => {
+                console.log('Response Intercepted', event);
+            }));
     }
 }
 

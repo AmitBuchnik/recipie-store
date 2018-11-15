@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Effect, Actions } from "@ngrx/effects";
 import { HttpRequest, HttpClient, HttpHeaders } from "@angular/common/http";
 import { Store } from "@ngrx/store";
-import { map, switchMap, withLatestFrom  } from "rxjs/operators";
+import { map, switchMap, withLatestFrom } from "rxjs/operators";
 
 import * as RecipeActions from './recipe.actions';
 import * as fromRecipe from './recipe.reducers';
@@ -10,6 +10,12 @@ import { Recipe } from "../recipe.model";
 
 @Injectable()
 export class RecipeEffects {
+
+    constructor(private actions$: Actions,
+        private httpClient: HttpClient,
+        private store: Store<fromRecipe.IFeatureState>) {
+    }
+
     @Effect() recipeFetch = this.actions$
         .ofType(RecipeActions.FETCH_RECIPES)
         .pipe(switchMap((action: RecipeActions.FetchRecipes) => {
@@ -18,7 +24,7 @@ export class RecipeEffects {
             // const headers = new HttpHeaders({
             //     'Content-Type': 'application/json'
             // });
-            
+
             return this.httpClient.get<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
                 {
                     // headers: headers,
@@ -49,9 +55,6 @@ export class RecipeEffects {
                     });
                 return this.httpClient.request(request);
             }));
-    
-    constructor(private actions$: Actions,
-        private httpClient: HttpClient,
-        private store: Store<fromRecipe.IFeatureState>) {
-    }
 }
+
+

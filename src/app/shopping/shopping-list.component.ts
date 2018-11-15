@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {  Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
@@ -84,7 +84,7 @@ import * as fromApp from '../ngrx-store/app.reducers';
     ])
   ]
 })
-export class ShoppingListComponent implements OnInit, OnDestroy {
+export class ShoppingListComponent implements OnInit {
   shoppingListState: Observable<fromShoppingList.IState>;
 
   constructor(private store: Store<fromApp.IAppState>) {
@@ -92,9 +92,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.shoppingListState = this.store.select('shoppingList');
-  }
-
-  ngOnDestroy() {
   }
 
   onEditItem(index: number) {

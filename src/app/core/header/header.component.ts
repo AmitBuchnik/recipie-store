@@ -14,13 +14,13 @@ import * as RecipeActions from '../../recipes/ngrx-store/recipe.actions';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  authState: Observable<fromApp.IAppState>;
+  authState: Observable<fromAuth.IState>;
 
-  constructor(private store: Store<fromAuth.IState>) {
+  constructor(private store: Store<fromApp.IAppState>) {
   }
 
   ngOnInit() {
-    this.authState = this.store.select('auth');    
+    this.authState = this.store.select('auth');
   }
 
   // onSaveData() {

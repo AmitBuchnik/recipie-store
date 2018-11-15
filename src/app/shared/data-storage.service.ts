@@ -33,11 +33,16 @@ export class DataStorageService {
   //   const headers = new HttpHeaders({
   //     'Content-Type': 'application/json'
   //   });
+
+  // const headers = new HttpHeaders();
+  // headers.set('Content-Type', 'application/json');
+  // headers.append('Content-Type', 'application/json');
+
   //   return this.httpClient.put<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json?auth=' + token,
   //     this.recipeService.getRecipes(),
   //     {
   //       headers: headers,
-  //       observe: 'events' // request and response events
+  //       observe: 'events' // request and response events. type 0 = sent, type 1 = upload, type 2 = response, type 3 = download
   //     });
   // }
 
@@ -48,18 +53,16 @@ export class DataStorageService {
       'Content-Type': 'application/json'
     });
 
-    // headers.set('Content-Type', 'application/json');
-    // headers.append('Content-Type', 'application/json');
-
     // return this.httpClient.put<Recipe[]>('https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
     //   this.recipeService.getRecipes(),
     //   {
     //     // headers: headers,
-    //     params: new HttpParams().set('auth', token)
+    //     params: new HttpParams().set('auth', token) // Query parameters (?auth=token)
     //   });
 
 
     // Useful for uploading and downloading files (progressbar)
+    // in the response in upload event (type 1) and download event (type 3) we can divide loaded by total and get the precentage
     const request = new HttpRequest('PUT', 'https://ng-recipe-book-975b7.firebaseio.com/recipes.json',
       this.recipeService.getRecipes(), {
         // params: new HttpParams().set('auth', token),
@@ -89,7 +92,7 @@ export class DataStorageService {
     //   {
     //     headers: headers,
     //     observe: 'response', // 'body', 'events'
-    //     responseType: 'text' // 'json'. 'blob', 'array'
+    //     responseType: 'text' // 'json'. 'blob', 'arraybuffer'
     //   })
     //   .pipe(map((response) => {
     //     console.log(response);
@@ -105,7 +108,7 @@ export class DataStorageService {
         // params: new HttpParams().set('auth', token)
       }
     )
-      .pipe(map((recipes: Recipe[]) => {
+      .pipe(map((recipes) => {
         for (const recipe of recipes) {
           if (!recipe['ingredients']) {
             recipe['ingredients'] = [];
@@ -113,7 +116,7 @@ export class DataStorageService {
         }
         return recipes;
       }))
-      .subscribe((recipes: Recipe[]) => {
+      .subscribe((recipes) => {
         // this.recipeService.setRecipes(recipes);
         this.store.dispatch(new RecipeActions.SetRecipes(recipes));
       });

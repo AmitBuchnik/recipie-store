@@ -40,9 +40,12 @@ export class SetToken implements Action {
     }
 }
 
-export type AuthActions = Signup |
+export type AuthActions =
+    Signup |
     Signin |
     Logout |
     SetToken |
     TrySignup |
     TrySignin;
+
+    
