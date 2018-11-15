@@ -7,7 +7,7 @@ import { RecipeResolver } from './recipe-resolver.service';
 import { RecipeRouteActivatorGuard } from './recipe-route-activator.guard';
 import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
-import { AuthGuard } from '../auth/auth-guard.service';
+import { AuthGuard } from '../auth/auth-guard';
 
 const routes: Routes = [
     {
