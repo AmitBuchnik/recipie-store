@@ -15,6 +15,7 @@ export class AuthRequestInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log('Request Intercepted', req);
 
+        // map will wrap the returned value with observable, switchMap returns a new observable
         return this.store.select('auth')
             .pipe(take(1),
                 switchMap((authState: fromAuth.IState) => {

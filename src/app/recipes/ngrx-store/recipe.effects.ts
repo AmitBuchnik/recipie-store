@@ -16,7 +16,8 @@ export class RecipeEffects {
         private store: Store<fromRecipe.IFeatureState>) {
     }
 
-    @Effect() recipeFetch = this.actions$
+    @Effect()
+    recipeFetch = this.actions$
         .ofType(RecipeActions.FETCH_RECIPES)
         .pipe(switchMap((action: RecipeActions.FetchRecipes) => {
             // const token = this.authService.getToken();
@@ -45,7 +46,10 @@ export class RecipeEffects {
                 };
             }));
 
-    @Effect({ dispatch: false }) recipeStore = this.actions$
+    // withLatestFrom is for combines the value from ofType (action) with the value from this.store.select('recipes') (Observable<fromRecipe.IState>)
+
+    @Effect({ dispatch: false })
+    recipeStore = this.actions$
         .ofType(RecipeActions.STORE_RECIPES)
         .pipe(withLatestFrom(this.store.select('recipes')),
             switchMap(([action, state]) => {
