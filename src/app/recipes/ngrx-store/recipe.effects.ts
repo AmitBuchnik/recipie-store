@@ -46,7 +46,7 @@ export class RecipeEffects {
                 };
             }));
 
-    // withLatestFrom is for combines the value from ofType (action) with the value from this.store.select('recipes') (Observable<fromRecipe.IState>)
+    // withLatestFrom combines the observale result with the previous observable result
 
     @Effect({ dispatch: false })
     recipeStore = this.actions$
